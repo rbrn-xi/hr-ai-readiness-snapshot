@@ -27,15 +27,15 @@ Your top 3 risks and next 3 moves are pulled from the lenses where you scored lo
 
 This is not a product. It collects nothing. There are no accounts, no tracking, and no data sent anywhere. Nothing leaves your browser.
 
-The synthetic demo company, Brightpath Dental Group, is fictional and made up. It is not a real company.
+The demo company, Brightpath Dental Group, is fictional. It is not a real company.
 
 ## License
 
-MIT covers the framework plumbing only. Everything under src/content/ and all brand assets are copyright FYS Labs, all rights reserved. See src/content/CONTENT-LICENSE.txt.
+MIT covers the framework code only (the app shell, components, styles, and build configuration). Everything under src/content/ and all brand assets are copyright FYS Labs, all rights reserved. See src/content/CONTENT-LICENSE.txt. That includes `public/logo.png`, which is the official FixYourHR brand mark.
 
 ## Analytics
 
-There is no in-app analytics in this demo. Measurement is aggregate repo traffic plus UTM tags on outbound links.
+There is no in-app analytics in this demo. The only measurement is overall repo traffic plus UTM tags on outbound links.
 
 ## Run it locally
 

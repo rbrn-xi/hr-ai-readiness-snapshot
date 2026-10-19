@@ -62,13 +62,26 @@ export function App() {
   }
 
   const answers = synthetic ? DEMO_ANSWERS : (selections as number[]);
+  const narrow = screen !== "intro";
 
   return (
     <div className="page">
-      <main className="container">
-        <div className="brand">
-          fyhr<span className="dot">.</span>
+      <header className="masthead">
+        <div className="masthead-inner">
+          <img
+            src="logo.png"
+            alt="FixYourHR"
+            className="logo"
+            width={720}
+            height={459}
+          />
+          <span className="masthead-label">Free self-check</span>
         </div>
+      </header>
+      <div className="print-header" aria-hidden="true">
+        HR AI Readiness Snapshot · FixYourHR
+      </div>
+      <main className={narrow ? "container container--narrow" : "container"}>
         {screen === "intro" && <Intro onStart={startQuiz} onDemo={startDemo} />}
         {screen === "question" && (
           <QuestionStep

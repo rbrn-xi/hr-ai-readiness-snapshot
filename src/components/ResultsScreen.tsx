@@ -6,6 +6,8 @@ const DISCOVERY_URL =
 const FYHR_URL =
   "https://fyhr.fixinghr.com/?utm_source=github&utm_medium=demo&utm_campaign=readiness-snapshot";
 
+const RING_CIRCUMFERENCE = 2 * Math.PI * 52;
+
 interface ResultsScreenProps {
   summary: ResultSummary;
   synthetic: boolean;
@@ -25,50 +27,120 @@ export function ResultsScreen({
     headingRef.current?.focus();
   }, []);
 
+  const ringFill = (summary.pct / 100) * RING_CIRCUMFERENCE;
+
   return (
     <div>
+      <div className="report-header">
+        <img
+          src="logo.png"
+          alt="FixYourHR"
+          className="logo"
+          width={720}
+          height={459}
+        />
+        <span className="report-header-label">Readiness report</span>
+      </div>
+
       {synthetic && (
-        <div aria-live="polite">
+        <div className="fictional-row">
           <span className="fictional-badge">Fictional example</span>
-          <p className="small-print">
+          <p className="small-print" style={{ marginBottom: 0 }}>
             Sample result for {companyName}, a made-up company. Your own answers
             will produce a different snapshot.
           </p>
         </div>
       )}
 
-      <div className="band-banner" aria-live="polite">
-        <p className="band-kicker">
-          {synthetic ? "Sample readiness band" : "Your readiness band"}
-        </p>
-        <h2 ref={headingRef} tabIndex={-1}>
-          {summary.band.name}
-          <span className="dot">.</span>
-        </h2>
-        <p>{summary.band.description}</p>
+      <div className="band-card" aria-live="polite">
+        <div>
+          <p className="band-kicker">
+            {synthetic ? "Sample readiness band" : "Your readiness band"}
+          </p>
+          <h2 className="band-word" ref={headingRef} tabIndex={-1}>
+            {summary.band.name}
+          </h2>
+          <p className="band-desc">{summary.band.description}</p>
+        </div>
+        <div
+          className="ring-wrap"
+          role="img"
+          aria-label={`${summary.pct} percent readiness`}
+        >
+          <svg viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+            <defs>
+              <linearGradient
+                id="ring-gradient"
+                x1="0"
+                y1="0"
+                x2="1"
+                y2="1"
+              >
+                <stop offset="0" stopColor="#2237d3" />
+                <stop offset="1" stopColor="#3d2f9e" />
+              </linearGradient>
+            </defs>
+            <circle
+              cx="60"
+              cy="60"
+              r="52"
+              fill="none"
+              stroke="#e9e6df"
+              strokeWidth="10"
+            />
+            <circle
+              cx="60"
+              cy="60"
+              r="52"
+              fill="none"
+              stroke="url(#ring-gradient)"
+              strokeWidth="10"
+              strokeLinecap={summary.pct === 0 ? "butt" : "round"}
+              strokeDasharray={`${ringFill} ${RING_CIRCUMFERENCE}`}
+              transform="rotate(-90 60 60)"
+            />
+          </svg>
+          <div className="ring-center" aria-hidden="true">
+            <span className="ring-pct">{summary.pct}%</span>
+            <span className="ring-cap">Ready</span>
+          </div>
+        </div>
       </div>
 
       <div className="card">
         <h2 className="list-title">Top 3 risks to address</h2>
-        <ul className="plain risks">
+        <ul className="plain">
           {summary.topRisks.map((risk, i) => (
-            <li key={i}>{risk.text}</li>
+            <li key={i}>
+              <svg
+                className="risk-marker"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+                focusable="false"
+              >
+                <path
+                  fill="#e8893b"
+                  d="M13 2 4.5 13.5h5L8.5 22 19 10h-5.5L13 2z"
+                />
+              </svg>
+              {risk.text}
+            </li>
           ))}
         </ul>
       </div>
 
       <div className="card">
         <h2 className="list-title">Next 3 moves</h2>
-        <ul className="plain moves">
+        <ol className="moves-list">
           {summary.nextMoves.map((move, i) => (
             <li key={i}>{move.text}</li>
           ))}
-        </ul>
+        </ol>
       </div>
 
-      <div className="card">
+      <div className="quiet-panel">
         <h2 className="list-title">Do not automate yet</h2>
-        <ul className="plain risks">
+        <ul className="plain">
           {summary.doNotAutomate.map((item, i) => (
             <li key={i}>
               <strong>{item.item}</strong> {item.reason}
@@ -82,6 +154,13 @@ export function ResultsScreen({
       </p>
 
       <div className="cta-card">
+        <img
+          src="logo.png"
+          alt="FixYourHR"
+          className="logo"
+          width={720}
+          height={459}
+        />
         <h2>Want the full picture?</h2>
         <p>
           This snapshot is the starting point. A discovery call walks through
@@ -97,7 +176,7 @@ export function ResultsScreen({
         </div>
       </div>
 
-      <div className="button-row">
+      <div className="button-row restart-row">
         <button
           className="button button-secondary"
           type="button"
