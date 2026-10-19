@@ -19,7 +19,8 @@
     "build": "tsc && vite build",
     "dev": "vite",
     "lint": "tsc --noEmit",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "node --import ./tests/register.mjs --test \"tests/**/*.test.ts\""
   },
   "type": "module",
   "version": "1.0.0"

@@ -34,7 +34,7 @@ export const BANDS: Band[] = [
     name: "Leading",
     min: 80,
     description:
-      "Your HR operation is organized, governed, and ready to use AI with discipline. At this level the risk shifts to keeping standards high and not automating judgment calls that belong to people. Keep standards high, and don't automate the calls that belong to people.",
+      "Your HR operation is organized, governed, and ready to use AI with discipline. At this level the risk shifts to keeping standards high and not automating judgment calls that belong to people.",
   },
 ];
 

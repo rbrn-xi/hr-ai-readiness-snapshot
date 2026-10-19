@@ -1,5 +1,7 @@
 # HR AI Readiness Snapshot
 
+[![Tests and deploy](https://github.com/rbrn-xi/hr-ai-readiness-snapshot/actions/workflows/pages.yml/badge.svg)](https://github.com/rbrn-xi/hr-ai-readiness-snapshot/actions/workflows/pages.yml)
+
 **Try it live:** [rbrn-xi.github.io/hr-ai-readiness-snapshot](https://rbrn-xi.github.io/hr-ai-readiness-snapshot/)
 
 The full demo runs in your browser. It takes about 3 minutes and needs no account.
@@ -46,8 +48,11 @@ There is no in-app analytics in this demo. The only measurement is overall repo 
 ```
 npm i
 npm run dev
+npm test
 npm run build
 ```
+
+Tests use Node's built-in test runner (Node 22.18 or newer), so there are no extra dependencies. They check the scoring math, the band thresholds above, and that every lens has questions, a risk, and a move.
 
 ## Disclaimer
 
