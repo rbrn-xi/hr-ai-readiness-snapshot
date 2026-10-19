@@ -1,5 +1,9 @@
 # HR AI Readiness Snapshot
 
+**Try it live:** [rbrn-xi.github.io/hr-ai-readiness-snapshot](https://rbrn-xi.github.io/hr-ai-readiness-snapshot/)
+
+The full demo runs in your browser. It takes about 3 minutes and needs no account.
+
 ## What this is
 
 HR teams are being pushed to adopt AI fast. Most have no simple way to know whether they are ready.
