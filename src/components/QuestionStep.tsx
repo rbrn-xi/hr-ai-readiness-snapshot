@@ -31,10 +31,10 @@ export function QuestionStep({
 
   return (
     <div key={index} className="step-anim">
-      <div className="card">
+      <div className="q-head">
         <div className="progress">
           <div className="progress-row">
-            <span className="step-chip">
+            <span className="step-count">
               Question {index + 1} of {QUESTIONS.length}
             </span>
             <span className="lens-tag">{lensTitle(question.lens)}</span>
@@ -61,25 +61,23 @@ export function QuestionStep({
             </span>
           </div>
         </div>
-        <p className="sr-only sr-status" role="status">
-          Question {index + 1} of {QUESTIONS.length}
-        </p>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            if (selected !== null) {
-              onSubmit();
-            }
-          }}
-        >
-          <fieldset>
-            <legend
-              className="question-legend"
-              ref={headingRef}
-              tabIndex={-1}
-            >
-              {question.text}
-            </legend>
+      </div>
+      <p className="sr-only sr-status" role="status">
+        Question {index + 1} of {QUESTIONS.length}
+      </p>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (selected !== null) {
+            onSubmit();
+          }
+        }}
+      >
+        <fieldset>
+          <legend className="question-legend" ref={headingRef} tabIndex={-1}>
+            {question.text}
+          </legend>
+          <div className="option-list">
             {question.options.map((option, optionIndex) => (
               <label
                 key={optionIndex}
@@ -94,29 +92,31 @@ export function QuestionStep({
                   checked={selected === optionIndex}
                   onChange={() => onSelect(optionIndex)}
                 />
-                <span className="option-marker" aria-hidden="true" />
+                <span className="option-num" aria-hidden="true">
+                  {String(optionIndex + 1).padStart(2, "0")}
+                </span>
                 <span className="option-label">{option.text}</span>
               </label>
             ))}
-          </fieldset>
-          <div className="question-nav">
-            <button
-              className="button-text"
-              type="button"
-              onClick={index === 0 ? onRestart : onBack}
-            >
-              {index === 0 ? "Start over" : "Back"}
-            </button>
-            <button
-              className="button button-primary"
-              type="submit"
-              disabled={selected === null}
-            >
-              {isLast ? "See my snapshot" : "Next question"}
-            </button>
           </div>
-        </form>
-      </div>
+        </fieldset>
+        <div className="question-nav">
+          <button
+            className="button-text"
+            type="button"
+            onClick={index === 0 ? onRestart : onBack}
+          >
+            {index === 0 ? "Start over" : "Back"}
+          </button>
+          <button
+            className="button button-primary"
+            type="submit"
+            disabled={selected === null}
+          >
+            {isLast ? "See my snapshot" : "Next question"}
+          </button>
+        </div>
+      </form>
     </div>
   );
 }

@@ -46,7 +46,7 @@ export function ResultsScreen({
         </div>
       )}
 
-      <div className="band-card" aria-live="polite">
+      <div className="verdict" aria-live="polite">
         <div>
           <p className="band-kicker">
             {synthetic ? "Sample readiness band" : "Your readiness band"}
@@ -101,7 +101,7 @@ export function ResultsScreen({
         </div>
       </div>
 
-      <div className="card">
+      <div className="report-section">
         <h2 className="list-title">Top 3 risks to address</h2>
         <ul className="plain">
           {summary.topRisks.map((risk, i) => (
@@ -123,7 +123,7 @@ export function ResultsScreen({
         </ul>
       </div>
 
-      <div className="card">
+      <div className="report-section">
         <h2 className="list-title">Next 3 moves</h2>
         <ol className="moves-list">
           {summary.nextMoves.map((move, i) => (

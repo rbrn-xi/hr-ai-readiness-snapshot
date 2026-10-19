@@ -24,9 +24,9 @@ export class ErrorBoundary extends Component<Props, State> {
         <div className="page">
           <div className="container">
             <div className="brand">
-              fyhr<span className="dot">.</span>
+              fyhr<span className="dot" aria-hidden="true">.</span>
             </div>
-            <div className="card error-card">
+            <div className="error-card">
               <h1>Something went wrong.</h1>
               <p>Please reload the page and try again.</p>
               <button

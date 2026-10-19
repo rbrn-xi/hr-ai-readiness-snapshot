@@ -66,6 +66,9 @@ export function App() {
 
   return (
     <div className="page">
+      <a className="skip-link" href="#main">
+        Skip to main content
+      </a>
       <header className="masthead">
         <div className="masthead-inner">
           <img
@@ -81,7 +84,7 @@ export function App() {
       <div className="print-header" aria-hidden="true">
         HR AI Readiness Snapshot · FixYourHR
       </div>
-      <main className={narrow ? "container container--narrow" : "container"}>
+      <main id="main" className={narrow ? "container container--narrow" : "container"}>
         {screen === "intro" && <Intro onStart={startQuiz} onDemo={startDemo} />}
         {screen === "question" && (
           <QuestionStep
