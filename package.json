@@ -1,0 +1,26 @@
+{
+  "dependencies": {
+    "@fontsource/manrope": "^5.2.5",
+    "@fontsource/playfair-display": "^5.2.5",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "description": "HR AI Readiness Snapshot: a static, public demo assessment from FixYourHR. No accounts, no backend, no personal data.",
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "^5.6.3",
+    "vite": "^6.0.3"
+  },
+  "name": "hr-ai-readiness-snapshot",
+  "private": true,
+  "scripts": {
+    "build": "tsc && vite build",
+    "dev": "vite",
+    "lint": "tsc --noEmit",
+    "preview": "vite preview"
+  },
+  "type": "module",
+  "version": "1.0.0"
+}
