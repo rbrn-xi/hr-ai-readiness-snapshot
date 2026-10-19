@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { QUESTIONS } from "./content/questions";
 import { DEMO_ANSWERS, DEMO_COMPANY_NAME } from "./content/results";
-import { summarize } from "./lib/scoring";
+import { summarize, lensScores } from "./lib/scoring";
 import { Intro } from "./components/Intro";
 import { QuestionStep } from "./components/QuestionStep";
 import { ResultsScreen } from "./components/ResultsScreen";
 
 type Screen = "intro" | "question" | "results";
+
+const BASE_TITLE = "HR AI Readiness Snapshot | FixYourHR";
 
 export function App() {
   const [screen, setScreen] = useState<Screen>("intro");
@@ -15,6 +17,17 @@ export function App() {
     Array(QUESTIONS.length).fill(null)
   );
   const [synthetic, setSynthetic] = useState(false);
+
+  // Each screen starts at the top, and the tab title says where you are.
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+    document.title =
+      screen === "question"
+        ? `Question ${index + 1} of ${QUESTIONS.length} · ${BASE_TITLE}`
+        : screen === "results"
+          ? `${synthetic ? "Sample report" : "Your report"} · ${BASE_TITLE}`
+          : BASE_TITLE;
+  }, [screen, index, synthetic]);
 
   function restart() {
     setScreen("intro");
@@ -58,6 +71,8 @@ export function App() {
   function back() {
     if (index > 0) {
       setIndex(index - 1);
+    } else {
+      setScreen("intro");
     }
   }
 
@@ -72,43 +87,54 @@ export function App() {
       <header className="masthead">
         <div className="masthead-inner">
           <img
-            src="logo.png"
+            src="logo-mark.png"
             alt="FixYourHR"
             className="logo"
-            width={1021}
-            height={620}
+            width={232}
+            height={136}
           />
-          <span className="masthead-label">Free self-check</span>
+          <span className="masthead-label">
+            HR AI Readiness Snapshot
+          </span>
         </div>
       </header>
-      <div className="print-header" aria-hidden="true">
-        HR AI Readiness Snapshot · FixYourHR
-      </div>
-      <main id="main" className={narrow ? "container container--narrow" : "container"}>
+      <main
+        id="main"
+        className={narrow ? "container container--narrow" : "container"}
+      >
         {screen === "intro" && <Intro onStart={startQuiz} onDemo={startDemo} />}
         {screen === "question" && (
           <QuestionStep
             index={index}
             selected={selections[index]}
+            answered={selections}
             onSelect={select}
             onSubmit={next}
             onBack={back}
-            onRestart={restart}
           />
         )}
         {screen === "results" && (
           <ResultsScreen
             summary={summarize(answers)}
+            lenses={lensScores(answers)}
             synthetic={synthetic}
             companyName={DEMO_COMPANY_NAME}
-            onRestart={restart}
+            onRestart={synthetic ? startQuiz : restart}
           />
         )}
       </main>
       <footer className="footer">
         <div className="footer-inner">
-          HR AI Readiness Snapshot, a free demo from FixYourHR, a FYS Labs
-          company. Educational only. Not legal or HR advice.
+          <p>
+            A free demo from FixYourHR, a FYS Labs company. Educational only.
+            Not legal or HR advice.
+          </p>
+          <a
+            className="footer-link"
+            href="https://github.com/rbrn-xi/hr-ai-readiness-snapshot"
+          >
+            View source on GitHub
+          </a>
         </div>
       </footer>
     </div>

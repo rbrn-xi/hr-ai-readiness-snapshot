@@ -1,4 +1,5 @@
 import { DEMO_ANSWERS, DEMO_COMPANY_NAME } from "../content/results";
+import { QUESTIONS } from "../content/questions";
 import { summarize } from "../lib/scoring";
 
 interface IntroProps {
@@ -6,10 +7,17 @@ interface IntroProps {
   onDemo: () => void;
 }
 
+const FACTS = [
+  { value: String(QUESTIONS.length), label: "Questions" },
+  { value: "3 min", label: "To finish" },
+  { value: "None", label: "Sign-up needed" },
+  { value: "None", label: "Data collected" },
+];
+
 const CONTENTS = [
   { title: "Readiness band", sub: "where your team stands, in plain words" },
-  { title: "Top 3 risks", sub: "the weak spots that matter most" },
-  { title: "Next 3 moves", sub: "what to do first, in order" },
+  { title: "Five-lens breakdown", sub: "where you are strong and where you are thin" },
+  { title: "Top 3 risks and next 3 moves", sub: "what to fix first, in order" },
   { title: "Do not automate yet", sub: "what to keep human for now" },
 ];
 
@@ -18,23 +26,33 @@ export function Intro({ onStart, onDemo }: IntroProps) {
 
   return (
     <div className="cover">
-      <p className="intro-kicker">FixYourHR</p>
+      <p className="intro-kicker">A self-check for HR teams</p>
       <h1 className="intro-title">
         Is your HR team <span className="gradient-word">ready</span> for AI
-        <span className="dot" aria-hidden="true">.</span>
+        <span className="dot" aria-hidden="true">
+          .
+        </span>
       </h1>
+
+      <dl className="fact-strip">
+        {FACTS.map((fact) => (
+          <div className="fact" key={fact.label}>
+            <dt className="fact-label">{fact.label}</dt>
+            <dd className="fact-value">{fact.value}</dd>
+          </div>
+        ))}
+      </dl>
+
       <div className="cover-grid">
         <div>
           <p className="lede">
-            12 questions. About 3 minutes. One clear picture of where your HR
-            team stands with AI, and what to fix first.
+            One clear picture of where your HR team stands with AI, and what
+            to fix first. Answer for your team as things are today, not as you
+            hope they will be.
           </p>
-          <p>
-            Answer for your team as things are today. Nothing is stored and
-            nothing leaves your browser.
-          </p>
-          <h2 className="contents-title">What is inside</h2>
-          <ul className="toc">
+
+          <h2 className="contents-title">What you get</h2>
+          <ol className="toc">
             {CONTENTS.map((item, i) => (
               <li className="toc-row" key={item.title}>
                 <span className="toc-num" aria-hidden="true">
@@ -42,11 +60,12 @@ export function Intro({ onStart, onDemo }: IntroProps) {
                 </span>
                 <span className="toc-text">
                   {item.title}
-                  <span className="toc-sub">, {item.sub}</span>
+                  <span className="toc-sub">{item.sub}</span>
                 </span>
               </li>
             ))}
-          </ul>
+          </ol>
+
           <div className="button-row">
             <button
               className="button button-primary"
@@ -54,37 +73,56 @@ export function Intro({ onStart, onDemo }: IntroProps) {
               onClick={onStart}
             >
               Start the snapshot
+              <span className="button-arrow" aria-hidden="true">
+                →
+              </span>
             </button>
             <button
               className="button button-secondary"
               type="button"
               onClick={onDemo}
             >
-              See a sample result
+              See a sample report
             </button>
           </div>
           <p className="disclaimer">
-            Educational only. Not legal or HR advice. No accounts, no personal
-            data collected.
+            Everything runs in your browser. Educational only, not legal or HR
+            advice.
           </p>
         </div>
+
         <aside
           className="preview-card"
           aria-label={`Sample result for ${DEMO_COMPANY_NAME}, a fictional company`}
         >
           <div className="preview-top">
-            <span className="preview-kicker">Sample snapshot · fictional</span>
+            <span className="preview-kicker">Sample report</span>
+            <span className="preview-tag">Fictional</span>
           </div>
+          <p className="preview-company">{DEMO_COMPANY_NAME}</p>
           <p className="preview-band">
             {demo.band.name}
-            <span className="dot" aria-hidden="true">.</span>
+            <span className="dot" aria-hidden="true">
+              .
+            </span>
           </p>
-          <p className="preview-pct">
-            {demo.pct} percent readiness · {DEMO_COMPANY_NAME}
-          </p>
+          <div
+            className="preview-meter"
+            role="img"
+            aria-label={`${demo.pct} percent readiness`}
+          >
+            <div className="preview-meter-track">
+              <div
+                className="preview-meter-fill"
+                style={{ width: `${demo.pct}%` }}
+              />
+            </div>
+            <span className="preview-meter-value">{demo.pct}%</span>
+          </div>
+          <p className="preview-section">Top risks</p>
           <ul className="preview-list">
-            {demo.topRisks.slice(0, 2).map((risk, i) => (
-              <li key={i}>
+            {demo.topRisks.slice(0, 2).map((risk) => (
+              <li key={risk.lens}>
                 <svg
                   className="bolt"
                   viewBox="0 0 24 24"
@@ -98,7 +136,10 @@ export function Intro({ onStart, onDemo }: IntroProps) {
             ))}
           </ul>
           <button className="preview-cta" type="button" onClick={onDemo}>
-            See the full sample
+            Read the full sample
+            <span className="button-arrow" aria-hidden="true">
+              →
+            </span>
           </button>
         </aside>
       </div>
