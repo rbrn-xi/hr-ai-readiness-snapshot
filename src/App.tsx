@@ -72,8 +72,8 @@ export function App() {
             src="logo.png"
             alt="FixYourHR"
             className="logo"
-            width={720}
-            height={459}
+            width={900}
+            height={547}
           />
           <span className="masthead-label">Free self-check</span>
         </div>

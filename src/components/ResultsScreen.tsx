@@ -32,13 +32,6 @@ export function ResultsScreen({
   return (
     <div>
       <div className="report-header">
-        <img
-          src="logo.png"
-          alt="FixYourHR"
-          className="logo"
-          width={720}
-          height={459}
-        />
         <span className="report-header-label">Readiness report</span>
       </div>
 
@@ -154,13 +147,6 @@ export function ResultsScreen({
       </p>
 
       <div className="cta-card">
-        <img
-          src="logo.png"
-          alt="FixYourHR"
-          className="logo"
-          width={720}
-          height={459}
-        />
         <h2>Want the full picture?</h2>
         <p>
           This snapshot is the starting point. A discovery call walks through
