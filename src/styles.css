@@ -56,6 +56,7 @@ p {
 }
 
 .gradient-word {
+  padding-bottom: 0.1em;
   background: var(--gradient);
   -webkit-background-clip: text;
   background-clip: text;
@@ -314,9 +315,10 @@ input:focus-visible {
   font-family: "Playfair Display", Georgia, serif;
   font-weight: 800;
   font-size: 2.4rem;
-  line-height: 1.05;
+  line-height: 1.15;
+  padding-bottom: 0.1em;
   color: var(--white);
-  margin: 0 0 0.25rem;
+  margin: 0 0 0.35rem;
 }
 
 .preview-band .dot {
@@ -592,26 +594,30 @@ fieldset {
 /* ---------- Results: report header ---------- */
 
 .report-header {
-  background: #000;
-  border-radius: var(--radius);
-  padding: 0.9rem 1.5rem;
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
   gap: 1rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 2px solid var(--ink);
   margin-bottom: 1.5rem;
 }
 
-.report-header .logo {
-  height: 26px;
+.report-header-label {
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+  white-space: nowrap;
 }
 
-.report-header-label {
-  font-size: 0.75rem;
+.report-header-meta {
+  font-size: 0.78rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--masthead-label);
+  color: var(--muted);
   white-space: nowrap;
 }
 
@@ -624,14 +630,26 @@ fieldset {
 }
 
 .fictional-badge {
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--white);
-  background: var(--muted);
-  border-radius: 999px;
-  padding: 0.3rem 0.85rem;
+  color: var(--ink);
+  background: var(--white);
+  border: 1.5px solid var(--ink);
+  border-radius: 0.3rem;
+  padding: 0.34rem 0.6rem;
+}
+
+.fictional-badge::before {
+  content: "";
+  width: 0.55rem;
+  height: 0.85rem;
+  background: var(--orange);
+  clip-path: polygon(54% 8%, 19% 56%, 40% 56%, 35% 92%, 79% 42%, 56% 42%);
 }
 
 /* ---------- Results: band card ---------- */
@@ -668,8 +686,9 @@ fieldset {
   font-family: "Playfair Display", Georgia, serif;
   font-weight: 800;
   font-size: clamp(2.8rem, 7vw, 4.5rem);
-  line-height: 1;
-  margin: 0 0 0.75rem;
+  line-height: 1.12;
+  padding-bottom: 0.14em;
+  margin: 0 0 0.6rem;
   background: var(--gradient);
   -webkit-background-clip: text;
   background-clip: text;

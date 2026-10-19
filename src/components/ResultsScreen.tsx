@@ -33,6 +33,7 @@ export function ResultsScreen({
     <div>
       <div className="report-header">
         <span className="report-header-label">Readiness report</span>
+        <span className="report-header-meta">FixYourHR</span>
       </div>
 
       {synthetic && (
