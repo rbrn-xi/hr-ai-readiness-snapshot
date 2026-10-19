@@ -6,11 +6,18 @@
 
 The full demo runs in your browser. It takes about 3 minutes and needs no account.
 
+<p align="center">
+  <img src="docs/intro.png" alt="The Snapshot intro: 'Is your HR team ready for AI.' with a sample report card" width="49%" />
+  <img src="docs/report.png" alt="A sample readiness report showing the band, score ring, band scale, and five-lens breakdown" width="49%" />
+</p>
+
 ## What this is
 
 HR teams are being pushed to adopt AI fast. Most have no simple way to know whether they are ready.
 
-The Snapshot is a 3-minute, 12-question self-assessment. It looks at your HR operation through five lenses: Workflows, Data & Documents, Policy & Risk, People Capacity, and Tool Governance. At the end you get your readiness band, your top three risks, your next three moves, and a list of things you should not automate yet.
+The Snapshot is a 3-minute, 12-question self-assessment. It looks at your HR operation through five lenses: Workflows, Data & Documents, Policy & Risk, People Capacity, and Tool Governance. At the end you get a one-page report: your readiness band and where it sits on the scale, a five-lens breakdown, your top three risks, your next three moves, and a list of things you should not automate yet. You can print it or save it as a PDF.
+
+It is built to be quick and accessible: answer with the keys 1 to 4 and Enter, use it fully by keyboard or screen reader, and it works on any screen size.
 
 ## Design principles
 
@@ -27,7 +34,7 @@ Every question has 3 or 4 answer choices. Each choice is worth 0, 1, or 2 points
 - 60 to 79%: Scaling
 - 80% or more: Leading
 
-Your top 3 risks and next 3 moves are pulled from the lenses where you scored lowest.
+Your top 3 risks and next 3 moves are pulled from the three lenses where you scored lowest. When lenses tie, the one asked first wins.
 
 ## What this demo deliberately is not
 
@@ -37,7 +44,7 @@ The demo company, Brightpath Dental Group, is fictional. It is not a real compan
 
 ## License
 
-MIT covers the framework code only (the app shell, components, styles, and build configuration). Everything under src/content/ and all brand assets are copyright FYS Labs, all rights reserved. See src/content/CONTENT-LICENSE.txt. That includes `public/logo.png`, which is the official FixYourHR brand mark.
+MIT covers the framework code only (the app shell, components, styles, and build configuration). Everything under src/content/ and all brand assets are copyright FYS Labs, all rights reserved. See src/content/CONTENT-LICENSE.txt. That includes `public/logo.png` (the official FixYourHR brand mark) and the images derived from it: `logo-mark.png`, `icon.png`, `apple-touch-icon.png`, and `og.png`.
 
 ## Analytics
 

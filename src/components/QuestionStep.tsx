@@ -5,67 +5,83 @@ import { lensTitle } from "../lib/scoring";
 interface QuestionStepProps {
   index: number;
   selected: number | null;
+  answered: (number | null)[];
   onSelect: (optionIndex: number) => void;
   onSubmit: () => void;
   onBack: () => void;
-  onRestart: () => void;
 }
 
 export function QuestionStep({
   index,
   selected,
+  answered,
   onSelect,
   onSubmit,
   onBack,
-  onRestart,
 }: QuestionStepProps) {
   const question = QUESTIONS[index];
   const headingRef = useRef<HTMLLegendElement>(null);
+  const isLast = index === QUESTIONS.length - 1;
 
   useEffect(() => {
-    headingRef.current?.focus();
+    headingRef.current?.focus({ preventScroll: true });
   }, [index]);
 
-  const isLast = index === QUESTIONS.length - 1;
-  const pct = ((index + 1) / QUESTIONS.length) * 100;
+  // Keyboard: 1-4 picks an answer, Enter moves on. Ignored while typing in a
+  // field or with modifier keys held, so browser shortcuts keep working.
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      const target = e.target as HTMLElement | null;
+      if (target?.closest("input[type=text], textarea, [contenteditable]")) return;
+      const n = Number(e.key);
+      if (Number.isInteger(n) && n >= 1 && n <= question.options.length) {
+        e.preventDefault();
+        onSelect(n - 1);
+      } else if (e.key === "Enter" && selected !== null) {
+        // Let buttons handle their own Enter; everywhere else, advance.
+        if (target?.tagName === "BUTTON" || target?.tagName === "A") return;
+        e.preventDefault();
+        onSubmit();
+      }
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [question, selected, onSelect, onSubmit]);
 
   return (
-    <div key={index} className="step-anim">
+    <div className="question-screen">
       <div className="q-head">
-        <div className="progress">
-          <div className="progress-row">
-            <span className="step-count">
-              Question {index + 1} of {QUESTIONS.length}
-            </span>
-            <span className="lens-tag">{lensTitle(question.lens)}</span>
-          </div>
-          <div className="progress-track">
-            <div
-              className="progress-fill"
-              style={{ width: `${pct}%` }}
-              aria-hidden="true"
-            />
-            <span
-              className="progress-bolt"
-              style={{ left: `${pct}%` }}
-              aria-hidden="true"
-            >
-              <svg
-                className="bolt"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-                focusable="false"
-              >
-                <path d="M13 2 4.5 13.5h5L8.5 22 19 10h-5.5L13 2z" />
-              </svg>
-            </span>
-          </div>
+        <div className="progress-row">
+          <span className="step-count">
+            Question {index + 1}
+            <span className="step-total"> of {QUESTIONS.length}</span>
+          </span>
+          <span className="lens-tag">{lensTitle(question.lens)}</span>
         </div>
+        <ol className="progress-segments" aria-hidden="true">
+          {QUESTIONS.map((q, i) => (
+            <li
+              key={q.id}
+              className={
+                "segment" +
+                (i === index
+                  ? " is-current"
+                  : answered[i] !== null && answered[i] !== undefined
+                    ? " is-done"
+                    : "")
+              }
+            />
+          ))}
+        </ol>
       </div>
-      <p className="sr-only sr-status" role="status">
-        Question {index + 1} of {QUESTIONS.length}
+      <p className="sr-only" role="status">
+        Question {index + 1} of {QUESTIONS.length}, {lensTitle(question.lens)}
       </p>
+
       <form
+        key={index}
+        className="step-anim"
         onSubmit={(e) => {
           e.preventDefault();
           if (selected !== null) {
@@ -96,25 +112,42 @@ export function QuestionStep({
                   {String(optionIndex + 1).padStart(2, "0")}
                 </span>
                 <span className="option-label">{option.text}</span>
+                <svg
+                  className="option-check"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M4 12.5 9.5 18 20 6.5" />
+                </svg>
               </label>
             ))}
           </div>
         </fieldset>
+
         <div className="question-nav">
-          <button
-            className="button-text"
-            type="button"
-            onClick={index === 0 ? onRestart : onBack}
-          >
-            {index === 0 ? "Start over" : "Back"}
+          <button className="button-text" type="button" onClick={onBack}>
+            <span aria-hidden="true">←</span>
+            {index === 0 ? "Back to intro" : "Previous"}
           </button>
-          <button
-            className="button button-primary"
-            type="submit"
-            disabled={selected === null}
-          >
-            {isLast ? "See my snapshot" : "Next question"}
-          </button>
+          <div className="nav-forward">
+            <span className="key-hint" aria-hidden="true">
+              <kbd>1</kbd>
+              {"\u2009–\u2009"}
+              <kbd>{question.options.length}</kbd> to choose,{" "}
+              <kbd>Enter</kbd> to continue
+            </span>
+            <button
+              className="button button-primary"
+              type="submit"
+              disabled={selected === null}
+            >
+              {isLast ? "See my report" : "Next question"}
+              <span className="button-arrow" aria-hidden="true">
+                →
+              </span>
+            </button>
+          </div>
         </div>
       </form>
     </div>
