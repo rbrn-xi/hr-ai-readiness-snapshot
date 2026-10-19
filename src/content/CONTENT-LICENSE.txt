@@ -1,0 +1,12 @@
+CONTENT LICENSE NOTICE
+
+Everything under src/content/ in this repository is original work written
+specifically for this demo. It is copyright FYS Labs, all rights reserved.
+
+That includes: the assessment questions, answer options, readiness bands,
+risk and move libraries, the "Do not automate yet" list, scoring descriptions,
+and any other written copy in this directory.
+
+The MIT license at the repository root (LICENSE) covers the framework
+plumbing of this project only: the app shell, components, styles, and build
+configuration. It does not cover the contents of src/content/.
