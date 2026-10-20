@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { QUESTIONS } from "../content/questions";
 import { lensTitle } from "../lib/scoring";
 
@@ -21,33 +21,56 @@ export function QuestionStep({
 }: QuestionStepProps) {
   const question = QUESTIONS[index];
   const headingRef = useRef<HTMLLegendElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
+  const [nudge, setNudge] = useState(false);
   const isLast = index === QUESTIONS.length - 1;
 
   useEffect(() => {
+    setNudge(false);
     headingRef.current?.focus({ preventScroll: true });
   }, [index]);
 
-  // Keyboard: 1-4 picks an answer, Enter moves on. Ignored while typing in a
-  // field or with modifier keys held, so browser shortcuts keep working.
+  function choose(optionIndex: number) {
+    setNudge(false);
+    onSelect(optionIndex);
+  }
+
+  // Next stays enabled. Pressing it with no answer explains what is missing
+  // instead of silently doing nothing.
+  function advance() {
+    if (selected === null) {
+      setNudge(true);
+      listRef.current?.querySelector("input")?.focus();
+      return;
+    }
+    onSubmit();
+  }
+
+  // Keyboard: 1-4 picks an answer, Enter moves on. Ignored with modifier keys
+  // held so browser shortcuts keep working.
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       if (e.metaKey || e.ctrlKey || e.altKey) return;
       const target = e.target as HTMLElement | null;
-      if (target?.closest("input[type=text], textarea, [contenteditable]")) return;
+      if (target?.closest("textarea, [contenteditable], input[type=text]")) return;
       const n = Number(e.key);
       if (Number.isInteger(n) && n >= 1 && n <= question.options.length) {
         e.preventDefault();
-        onSelect(n - 1);
-      } else if (e.key === "Enter" && selected !== null) {
-        // Let buttons handle their own Enter; everywhere else, advance.
+        choose(n - 1);
+        // Keep focus on the chosen answer so the focus ring and the
+        // selection never point at different rows.
+        listRef.current
+          ?.querySelectorAll("input")
+          [n - 1]?.focus({ preventScroll: true });
+      } else if (e.key === "Enter") {
         if (target?.tagName === "BUTTON" || target?.tagName === "A") return;
         e.preventDefault();
-        onSubmit();
+        advance();
       }
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [question, selected, onSelect, onSubmit]);
+  });
 
   return (
     <div className="question-screen">
@@ -81,19 +104,21 @@ export function QuestionStep({
 
       <form
         key={index}
-        className="step-anim"
+        className="question-form"
+        noValidate
         onSubmit={(e) => {
           e.preventDefault();
-          if (selected !== null) {
-            onSubmit();
-          }
+          advance();
         }}
       >
-        <fieldset>
+        <fieldset aria-describedby={nudge ? "answer-nudge" : undefined}>
           <legend className="question-legend" ref={headingRef} tabIndex={-1}>
             {question.text}
           </legend>
-          <div className="option-list">
+          <div
+            ref={listRef}
+            className={"option-list" + (nudge ? " needs-answer" : "")}
+          >
             {question.options.map((option, optionIndex) => (
               <label
                 key={optionIndex}
@@ -106,10 +131,10 @@ export function QuestionStep({
                   name={`question-${question.id}`}
                   value={optionIndex}
                   checked={selected === optionIndex}
-                  onChange={() => onSelect(optionIndex)}
+                  onChange={() => choose(optionIndex)}
                 />
-                <span className="option-num" aria-hidden="true">
-                  {String(optionIndex + 1).padStart(2, "0")}
+                <span className="option-key" aria-hidden="true">
+                  {optionIndex + 1}
                 </span>
                 <span className="option-label">{option.text}</span>
                 <svg
@@ -118,34 +143,28 @@ export function QuestionStep({
                   aria-hidden="true"
                   focusable="false"
                 >
-                  <path d="M4 12.5 9.5 18 20 6.5" />
+                  <path d="M4.5 12.5 9.5 17.5 19.5 6.5" />
                 </svg>
               </label>
             ))}
           </div>
         </fieldset>
 
+        <p id="answer-nudge" className="answer-nudge" aria-live="polite">
+          {nudge ? "Pick the answer closest to how things are today." : ""}
+        </p>
+
         <div className="question-nav">
           <button className="button-text" type="button" onClick={onBack}>
-            <span aria-hidden="true">←</span>
-            {index === 0 ? "Back to intro" : "Previous"}
+            {index === 0 ? "Back to intro" : "Previous question"}
           </button>
           <div className="nav-forward">
             <span className="key-hint" aria-hidden="true">
-              <kbd>1</kbd>
-              {"\u2009–\u2009"}
-              <kbd>{question.options.length}</kbd> to choose,{" "}
+              <kbd>1</kbd>–<kbd>{question.options.length}</kbd> to choose,{" "}
               <kbd>Enter</kbd> to continue
             </span>
-            <button
-              className="button button-primary"
-              type="submit"
-              disabled={selected === null}
-            >
+            <button className="button button-primary" type="submit">
               {isLast ? "See my report" : "Next question"}
-              <span className="button-arrow" aria-hidden="true">
-                →
-              </span>
             </button>
           </div>
         </div>

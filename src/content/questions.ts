@@ -36,7 +36,7 @@ export const QUESTIONS: Question[] = [
     text: "When someone new joins, how does onboarding actually happen at your company?",
     options: [
       { text: "Everyone follows the same written process. Someone new could run it without a handoff.", points: 2 },
-      { text: "It depends on who is available. The steps live in people's heads.", points: 0 },
+      { text: "It depends on who is available. The steps live in people’s heads.", points: 0 },
       { text: "We have a basic checklist for the big parts. The rest is improvised.", points: 1 },
       { text: "Some steps are written down, but we still chase loose ends by email or chat.", points: 1 },
     ],
@@ -48,7 +48,7 @@ export const QUESTIONS: Question[] = [
     options: [
       { text: "An hour or more. It means digging through files or asking around.", points: 0 },
       { text: "A few minutes. The answer is easy to find.", points: 2 },
-      { text: "Minutes if you know who to ask. Much longer if you don't.", points: 1 },
+      { text: "Minutes if you know who to ask. Much longer if you don’t.", points: 1 },
     ],
   },
   {
@@ -125,7 +125,7 @@ export const QUESTIONS: Question[] = [
     options: [
       { text: "No. HR tasks get squeezed in between everything else.", points: 0 },
       { text: "Sort of. One person owns HR on top of a full-time job.", points: 1 },
-      { text: "Yes. HR is someone's real job, or a real part of it.", points: 2 },
+      { text: "Yes. HR is someone’s real job, or a real part of it.", points: 2 },
     ],
   },
   {

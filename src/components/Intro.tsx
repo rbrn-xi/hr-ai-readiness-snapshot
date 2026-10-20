@@ -8,17 +8,17 @@ interface IntroProps {
 }
 
 const FACTS = [
-  { value: String(QUESTIONS.length), label: "Questions" },
-  { value: "3 min", label: "To finish" },
-  { value: "None", label: "Sign-up needed" },
-  { value: "None", label: "Data collected" },
+  { value: String(QUESTIONS.length), label: "questions" },
+  { value: "3 min", label: "to finish" },
+  { value: "No", label: "sign-up" },
+  { value: "Nothing", label: "leaves your browser" },
 ];
 
 const CONTENTS = [
-  { title: "Readiness band", sub: "where your team stands, in plain words" },
-  { title: "Five-lens breakdown", sub: "where you are strong and where you are thin" },
-  { title: "Top 3 risks and next 3 moves", sub: "what to fix first, in order" },
-  { title: "Do not automate yet", sub: "what to keep human for now" },
+  { title: "Your readiness band", sub: "Where your team stands, in plain words." },
+  { title: "A five-lens breakdown", sub: "Where you are strong and where you are thin." },
+  { title: "Top risks and next moves", sub: "Three of each, in the order to tackle them." },
+  { title: "What not to automate yet", sub: "The calls that stay with people." },
 ];
 
 export function Intro({ onStart, onDemo }: IntroProps) {
@@ -52,19 +52,14 @@ export function Intro({ onStart, onDemo }: IntroProps) {
           </p>
 
           <h2 className="contents-title">What you get</h2>
-          <ol className="toc">
-            {CONTENTS.map((item, i) => (
+          <ul className="toc">
+            {CONTENTS.map((item) => (
               <li className="toc-row" key={item.title}>
-                <span className="toc-num" aria-hidden="true">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <span className="toc-text">
-                  {item.title}
-                  <span className="toc-sub">{item.sub}</span>
-                </span>
+                <span className="toc-title">{item.title}</span>
+                <span className="toc-sub">{item.sub}</span>
               </li>
             ))}
-          </ol>
+          </ul>
 
           <div className="button-row">
             <button
@@ -73,9 +68,6 @@ export function Intro({ onStart, onDemo }: IntroProps) {
               onClick={onStart}
             >
               Start the snapshot
-              <span className="button-arrow" aria-hidden="true">
-                →
-              </span>
             </button>
             <button
               className="button button-secondary"
@@ -86,14 +78,13 @@ export function Intro({ onStart, onDemo }: IntroProps) {
             </button>
           </div>
           <p className="disclaimer">
-            Everything runs in your browser. Educational only, not legal or HR
-            advice.
+            Educational only, not legal or HR advice.
           </p>
         </div>
 
         <aside
           className="preview-card"
-          aria-label={`Sample result for ${DEMO_COMPANY_NAME}, a fictional company`}
+          aria-label={`Sample report for ${DEMO_COMPANY_NAME}, a fictional company`}
         >
           <div className="preview-top">
             <span className="preview-kicker">Sample report</span>
@@ -114,7 +105,7 @@ export function Intro({ onStart, onDemo }: IntroProps) {
             <div className="preview-meter-track">
               <div
                 className="preview-meter-fill"
-                style={{ width: `${demo.pct}%` }}
+                style={{ transform: `scaleX(${demo.pct / 100})` }}
               />
             </div>
             <span className="preview-meter-value">{demo.pct}%</span>
@@ -135,11 +126,9 @@ export function Intro({ onStart, onDemo }: IntroProps) {
               </li>
             ))}
           </ul>
+          {/* The button's hit area stretches over the whole card. */}
           <button className="preview-cta" type="button" onClick={onDemo}>
             Read the full sample
-            <span className="button-arrow" aria-hidden="true">
-              →
-            </span>
           </button>
         </aside>
       </div>
