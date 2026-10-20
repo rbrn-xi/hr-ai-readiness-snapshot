@@ -131,7 +131,7 @@ export function ResultsScreen({
           come from the three lowest; ties go to the lens asked first.
         </p>
         <ul className="lens-list">
-          {lenses.map((lens) => {
+          {lenses.map((lens, i) => {
             const title = lensTitle(lens.lens);
             const priority = weakest.has(title);
             return (
@@ -145,7 +145,10 @@ export function ResultsScreen({
                     className={
                       "lens-bar-fill" + (priority ? " is-priority" : "")
                     }
-                    style={{ width: filled ? `${lens.pct}%` : 0 }}
+                    style={{
+                      transform: `scaleX(${filled ? lens.pct / 100 : 0})`,
+                      transitionDelay: `${150 + i * 50}ms`,
+                    }}
                   />
                 </span>
                 <span className="lens-score">
@@ -219,7 +222,7 @@ export function ResultsScreen({
           type="button"
           onClick={() => window.print()}
         >
-          Print or save as PDF
+          Print or save as PDF…
         </button>
         <button
           className={
@@ -229,11 +232,6 @@ export function ResultsScreen({
           onClick={onRestart}
         >
           {synthetic ? "Take it for your team" : "Retake the snapshot"}
-          {synthetic && (
-            <span className="button-arrow" aria-hidden="true">
-              →
-            </span>
-          )}
         </button>
       </div>
 
