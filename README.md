@@ -42,6 +42,10 @@ This is not a product. It collects nothing. There are no accounts, no tracking, 
 
 The demo company, Brightpath Dental Group, is fictional. It is not a real company.
 
+## Questions and feedback
+
+Found something, or have a question about the demo? Open a GitHub Issue on this repo. No account or data is needed to try the demo itself, and feedback through Issues helps keep it that way.
+
 ## License
 
 MIT covers the framework code only (the app shell, components, styles, and build configuration). Everything under src/content/ and all brand assets are copyright FYS Labs, all rights reserved. See src/content/CONTENT-LICENSE.txt. That includes `public/logo.png` (the official FixYourHR brand mark) and the images derived from it: `logo-mark.png`, `icon.png`, `apple-touch-icon.png`, and `og.png`.
